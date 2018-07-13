@@ -2,6 +2,7 @@ package com.example.peng.nfcreadwrite;
 
 import android.app.Activity;
 import android.app.PendingIntent;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -24,6 +25,8 @@ import java.io.UnsupportedEncodingException;
 
 public class MainActivity extends Activity {
 
+    private String TAG = MainActivity.class.getSimpleName();
+
     public static final String ERROR_DETECTED = "No NFC tag detected!";
     public static final String WRITE_SUCCESS = "Text written to the NFC tag successfully!";
     public static final String WRITE_ERROR = "Error during writing, is the NFC tag close enough to your device?";
@@ -37,6 +40,8 @@ public class MainActivity extends Activity {
     TextView tvNFCContent;
     TextView message;
     Button btnWrite;
+    Button btnWaitToWrite;
+    private ProgressDialog dialog;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -47,6 +52,7 @@ public class MainActivity extends Activity {
         tvNFCContent = (TextView) findViewById(R.id.nfc_contents);
         message = (TextView) findViewById(R.id.edit_message);
         btnWrite = (Button) findViewById(R.id.button);
+        btnWaitToWrite = (Button) findViewById(R.id.btn_wait_to_write);
 
         btnWrite.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -68,6 +74,20 @@ public class MainActivity extends Activity {
             }
         });
 
+        btnWaitToWrite.setOnClickListener(new View.OnClickListener() {
+              @Override
+              public void onClick(View view) {
+                  Log.d(TAG, "Send three");
+                  //message = createNdefTextMessage("3");
+                  if (message != null) {
+                      dialog = new ProgressDialog(MainActivity.this);
+                      dialog.setMessage("Tag NFC Tag please");
+                      dialog.show();
+                  }
+              }
+          }
+        );
+
         nfcAdapter = NfcAdapter.getDefaultAdapter(this);
         if (nfcAdapter == null) {
             // Stop here, we definitely need NFC
@@ -80,6 +100,47 @@ public class MainActivity extends Activity {
         IntentFilter tagDetected = new IntentFilter(NfcAdapter.ACTION_TAG_DISCOVERED);
         tagDetected.addCategory(Intent.CATEGORY_DEFAULT);
         writeTagFilters = new IntentFilter[] { tagDetected };
+    }
+
+    @Override
+    public void onNewIntent (final Intent intent) {
+        Log.d( TAG, "onNewIntent");
+        readFromIntent(intent);
+
+        //setIntent(intent);// was in original codexpedia code...need to figure out what it does. //todo
+        //This might be useful: http://www.codexpedia.com/android/android-nfc-read-and-write-example/
+        // this too: https://www.survivingwithandroid.com/2016/01/nfc-tag-writer-android.html
+
+
+        if (intent == null) return;
+        myTag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
+
+        // next chunk mostly from here: https://www.survivingwithandroid.com/2015/03/android-nfc-app-android-nfc-tutorial.html
+        String type = intent.getType();
+        String action = intent.getAction();
+        Log.d(TAG, "type: " + type + ", action: " + action);
+
+        NdefRecord[] records;
+        try {
+            records = new NdefRecord[]{ createRecord(message.getText().toString()) };
+
+            NdefMessage message = new NdefMessage(records);
+            // Get an instance of Ndef for the tag.
+            Ndef ndef = Ndef.get(myTag);
+            // Enable I/O
+            ndef.connect();
+            // Write the message
+            ndef.writeNdefMessage(message);
+            // Close the connection
+            ndef.close();
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        } catch (FormatException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        super.onNewIntent( intent );
     }
 
 
@@ -159,7 +220,7 @@ public class MainActivity extends Activity {
     }
 
 
-
+    /*
     @Override
     protected void onNewIntent(Intent intent) {
         setIntent(intent);
@@ -168,6 +229,7 @@ public class MainActivity extends Activity {
             myTag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
         }
     }
+    */
 
     @Override
     public void onPause(){
