@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">NFC Read Write</string>
+    <string name="app_name">AlterWear</string>
     <string name="action_settings">Settings</string>
     <string name="title">Hello World NFC!</string>
 </resources>
