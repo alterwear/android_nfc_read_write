@@ -79,7 +79,7 @@ public class MainActivity extends Activity {
         btnWaitToWrite.setOnClickListener(new View.OnClickListener() {
               @Override
               public void onClick(View view) {
-                  Log.d(TAG, "Send three");
+                  Log.d(TAG, "Send msg: " + message.getText());
                   //message = createNdefTextMessage("3");
                   if (message != null) {
                       dialog = new ProgressDialog(MainActivity.this);
@@ -348,9 +348,20 @@ public class MainActivity extends Activity {
             // Enable I/O
             ndef.connect();
             // Write the message
+            Log.d(TAG, "writing message...");
+
+            // Time statistics to return
+            long timeNdefWrite = 0;
+            long RegTimeOutStart = System.currentTimeMillis();
+
             ndef.writeNdefMessage(message);
             // Close the connection
+            Log.d(TAG, "closing connection to tag...");
             ndef.close();
+
+            timeNdefWrite = System.currentTimeMillis() - RegTimeOutStart;
+            dialog.dismiss();
+            Toast.makeText(context, "time to write: " + timeNdefWrite, Toast.LENGTH_SHORT).show();
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         } catch (FormatException e) {
