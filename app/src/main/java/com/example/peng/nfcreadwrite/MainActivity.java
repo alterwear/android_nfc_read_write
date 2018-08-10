@@ -38,6 +38,7 @@ public class MainActivity extends Activity {
     Context context;
 
     TextView tvNFCContent;
+    private TextView justWritten = null;
     TextView message;
     Button btnWrite;
     Button btnWaitToWrite;
@@ -51,6 +52,7 @@ public class MainActivity extends Activity {
         context = this;
 
         tvNFCContent = (TextView) findViewById(R.id.nfc_contents);
+        justWritten = (TextView) findViewById(R.id.just_written);
         message = (TextView) findViewById(R.id.edit_message);
         btnWrite = (Button) findViewById(R.id.button);
         btnWaitToWrite = (Button) findViewById(R.id.btn_wait_to_write);
@@ -362,6 +364,11 @@ public class MainActivity extends Activity {
             timeNdefWrite = System.currentTimeMillis() - RegTimeOutStart;
             dialog.dismiss();
             Toast.makeText(context, "time to write: " + timeNdefWrite, Toast.LENGTH_SHORT).show();
+            NdefMessage[] msgs = new NdefMessage[1];
+            msgs[0] = message;
+            buildTagViews(msgs, "Just Written: ", justWritten);; // is this going to byte me in teh butt later?
+           // justWritten.setText("Successfully wrote: " + new String(message.getRecords()[0].getPayload(), "UTF-8"));
+
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         } catch (FormatException e) {
@@ -389,13 +396,13 @@ public class MainActivity extends Activity {
                     msgs[i] = (NdefMessage) rawMsgs[i];
                 }
             }
-            buildTagViews(msgs);
+            buildTagViews(msgs, "Previous NFC Content: ", tvNFCContent);
         }
     }
-    private void buildTagViews(NdefMessage[] msgs) {
+    private void buildTagViews(NdefMessage[] msgs, String text, TextView tv) {
         if (msgs == null || msgs.length == 0) return;
 
-        String text = "";
+        String msg = "";
 //        String tagId = new String(msgs[0].getRecords()[0].getType());
         byte[] payload = msgs[0].getRecords()[0].getPayload();
         String textEncoding = ((payload[0] & 128) == 0) ? "UTF-8" : "UTF-16"; // Get the Text Encoding
@@ -404,12 +411,12 @@ public class MainActivity extends Activity {
 
         try {
             // Get the Text
-            text = new String(payload, languageCodeLength + 1, payload.length - languageCodeLength - 1, textEncoding);
+            msg = new String(payload, languageCodeLength + 1, payload.length - languageCodeLength - 1, textEncoding);
         } catch (UnsupportedEncodingException e) {
             Log.e("UnsupportedEncoding", e.toString());
         }
 
-        tvNFCContent.setText("NFC Content: " + text);
+        tv.setText(text + msg);
     }
 
 
