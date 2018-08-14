@@ -40,9 +40,7 @@ public class MainActivity extends Activity {
     TextView tvNFCContent;
     private TextView justWritten = null;
     TextView message;
-    Button btnWrite;
     Button btnWaitToWrite;
-    Button btnSendTripStartImage;
     private ProgressDialog dialog;
 
     @Override
@@ -54,29 +52,8 @@ public class MainActivity extends Activity {
         tvNFCContent = (TextView) findViewById(R.id.nfc_contents);
         justWritten = (TextView) findViewById(R.id.just_written);
         message = (TextView) findViewById(R.id.edit_message);
-        btnWrite = (Button) findViewById(R.id.button);
         btnWaitToWrite = (Button) findViewById(R.id.btn_wait_to_write);
-        btnSendTripStartImage = (Button) findViewById(R.id.btn_trip_start_image);
 
-        btnWrite.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                try {
-                    if (myTag == null) {
-                        Toast.makeText(context, ERROR_DETECTED, Toast.LENGTH_LONG).show();
-                    } else {
-                        write(message.getText().toString(), myTag);
-                        Toast.makeText(context, WRITE_SUCCESS, Toast.LENGTH_LONG ).show();
-                    }
-                } catch (IOException e) {
-                    Toast.makeText(context, WRITE_ERROR, Toast.LENGTH_LONG ).show();
-                    e.printStackTrace();
-                } catch (FormatException e) {
-                    Toast.makeText(context, WRITE_ERROR, Toast.LENGTH_LONG ).show();
-                    e.printStackTrace();
-                }
-            }
-        });
 
         btnWaitToWrite.setOnClickListener(new View.OnClickListener() {
               @Override
@@ -118,6 +95,7 @@ public class MainActivity extends Activity {
 
         if (intent == null) return;
         myTag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
+        Log.d(TAG, "myTag: " + myTag.toString());
 
         // next chunk mostly from here: https://www.survivingwithandroid.com/2015/03/android-nfc-app-android-nfc-tutorial.html
         String type = intent.getType();
