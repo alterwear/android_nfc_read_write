@@ -41,6 +41,7 @@ public class MainActivity extends Activity {
     private TextView justWritten = null;
     TextView message;
     Button btnWaitToWrite;
+    Button btnWrite800;
     private ProgressDialog dialog;
 
     @Override
@@ -53,6 +54,7 @@ public class MainActivity extends Activity {
         justWritten = (TextView) findViewById(R.id.just_written);
         message = (TextView) findViewById(R.id.edit_message);
         btnWaitToWrite = (Button) findViewById(R.id.btn_wait_to_write);
+        btnWrite800 = (Button) findViewById(R.id.btn_write_800);
 
 
         btnWaitToWrite.setOnClickListener(new View.OnClickListener() {
@@ -68,6 +70,19 @@ public class MainActivity extends Activity {
               }
           }
         );
+
+        btnWrite800.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d(TAG, "Send msg: " + R.string.Eight_hundo);
+                message.setText(R.string.Eight_hundo);
+                if (message != null) {
+                    dialog = new ProgressDialog(MainActivity.this);
+                    dialog.setMessage("Tag NFC Tag please");
+                    dialog.show();
+                }
+            }
+        });
 
         nfcAdapter = NfcAdapter.getDefaultAdapter(this);
         if (nfcAdapter == null) {
