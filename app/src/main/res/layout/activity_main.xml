@@ -45,4 +45,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Write 800"/>
+    <TextView
+        android:id="@+id/time-to-write"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:hint="time to write"/>
 </LinearLayout>

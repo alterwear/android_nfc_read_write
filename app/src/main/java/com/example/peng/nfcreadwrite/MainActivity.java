@@ -20,6 +20,8 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.w3c.dom.Text;
+
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 
@@ -39,6 +41,7 @@ public class MainActivity extends Activity {
 
     TextView tvNFCContent;
     private TextView justWritten = null;
+    private TextView timeToWrite = null;
     TextView message;
     Button btnWaitToWrite;
     Button btnWrite800;
@@ -51,6 +54,7 @@ public class MainActivity extends Activity {
         context = this;
 
         tvNFCContent = (TextView) findViewById(R.id.nfc_contents);
+        timeToWrite = (TextView) findViewById(R.id.time_to_write);
         justWritten = (TextView) findViewById(R.id.just_written);
         message = (TextView) findViewById(R.id.edit_message);
         btnWaitToWrite = (Button) findViewById(R.id.btn_wait_to_write);
@@ -141,6 +145,7 @@ public class MainActivity extends Activity {
             timeNdefWrite = System.currentTimeMillis() - RegTimeOutStart;
             dialog.dismiss();
             Toast.makeText(context, "time to write: " + timeNdefWrite, Toast.LENGTH_SHORT).show();
+            timeToWrite.setText("time to write: " + timeNdefWrite + "ms");
             NdefMessage[] msgs = new NdefMessage[1];
             msgs[0] = message;
             buildTagViews(msgs, "Just Written: ", justWritten);; // is this going to byte me in teh butt later?
