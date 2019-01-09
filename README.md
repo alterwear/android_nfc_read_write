@@ -4,7 +4,7 @@ http://www.codexpedia.com/android/android-nfc-read-and-write-example/
 ## 2019-01-09 Notes
 - Unable to read from the two formatable NFC tags.
 - prints out garbage (notes in the latest commit).
-- also still not sure why the two tags are different...
+- also still not sure why the two tags are different... may need to read about different classes of mifare tags [link](https://android.googlesource.com/platform/frameworks/base/+/master/core/java/android/nfc/tech/MifareUltralight.java#39)
 
 ## 2018-12-10 Notes
 Fixed below crash:
