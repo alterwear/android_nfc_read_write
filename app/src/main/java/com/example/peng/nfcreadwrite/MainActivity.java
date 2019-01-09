@@ -99,7 +99,7 @@ public class MainActivity extends Activity {
             Toast.makeText(this, "This device doesn't support NFC.", Toast.LENGTH_LONG).show();
             finish();
         }
-        readFromIntent(getIntent());
+        //readFromIntent(getIntent());
 
         pendingIntent = PendingIntent.getActivity(this, 0, new Intent(this, getClass()).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP), 0);
         IntentFilter tagDetected = new IntentFilter(NfcAdapter.ACTION_TAG_DISCOVERED);
@@ -195,6 +195,7 @@ public class MainActivity extends Activity {
      **********************************Read From NFC Tag***************************
      ******************************************************************************/
     private void readFromIntent(Intent intent) {
+        Log.d(TAG, "readFromIntent called...");
         String action = intent.getAction();
         if (NfcAdapter.ACTION_TAG_DISCOVERED.equals(action)
                 || NfcAdapter.ACTION_TECH_DISCOVERED.equals(action)
