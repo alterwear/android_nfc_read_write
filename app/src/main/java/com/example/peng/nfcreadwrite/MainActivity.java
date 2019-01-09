@@ -1,9 +1,11 @@
 package com.example.peng.nfcreadwrite;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.nfc.FormatException;
@@ -11,7 +13,10 @@ import android.nfc.NdefMessage;
 import android.nfc.NdefRecord;
 import android.nfc.NfcAdapter;
 import android.nfc.Tag;
+import android.nfc.tech.MifareUltralight;
 import android.nfc.tech.Ndef;
+import android.nfc.tech.NdefFormatable;
+import android.nfc.tech.NfcA;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.util.Log;
@@ -37,7 +42,7 @@ public class MainActivity extends Activity {
     IntentFilter writeTagFilters[];
     boolean writeMode;
     Tag myTag;
-    Context context;
+    Activity context;
 
     TextView tvNFCContent;
     private TextView justWritten = null;
@@ -128,21 +133,44 @@ public class MainActivity extends Activity {
             NdefMessage message = new NdefMessage(records);
             // Get an instance of Ndef for the tag.
             Ndef ndef = Ndef.get(myTag);
-            // Enable I/O
-            ndef.connect();
-            // Write the message
-            Log.d(TAG, "writing message...");
 
             // Time statistics to return
             long timeNdefWrite = 0;
             long RegTimeOutStart = System.currentTimeMillis();
+            if (ndef != null) {
+                // Enable I/O
+                ndef.connect();
+                // Write the message
+                Log.d(TAG, "writing message...");
 
-            ndef.writeNdefMessage(message);
-            // Close the connection
-            Log.d(TAG, "closing connection to tag...");
-            ndef.close();
+                // Time statistics to return
+                timeNdefWrite = 0;
+                RegTimeOutStart = System.currentTimeMillis();
+                ndef.writeNdefMessage(message);
+                Log.d(TAG, "closing connection to tag...");
+                ndef.close();
+                timeNdefWrite = System.currentTimeMillis() - RegTimeOutStart;
+            } else {
+                byte[] answer;
+                byte[] command;
+                MifareUltralight mfu = MifareUltralight.get(myTag);
+                if (mfu != null) {
+                    mfu.connect();
+                    command = new byte[1];
+                    command[0] = (byte) 0x60; // GET_VERSION
+                    answer = mfu.transceive(command);
+                    Log.d(TAG, "answer: " + answer);
+                    mfu.close();
+                } else {
+                    String msg = "The Tag could not be identified or this NFC device does not "
+                            + "support the NFC Forum commands needed to access this tag";
+                    String title = "Communication failed";
+                    showAlert(msg, title);
+                }
+            }
 
-            timeNdefWrite = System.currentTimeMillis() - RegTimeOutStart;
+
+
             dialog.dismiss();
             Toast.makeText(context, "time to write: " + timeNdefWrite, Toast.LENGTH_SHORT).show();
             timeToWrite.setText("time to write: " + timeNdefWrite + "ms");
@@ -160,6 +188,7 @@ public class MainActivity extends Activity {
         }
         super.onNewIntent( intent );
     }
+
 
 
     /******************************************************************************
@@ -261,6 +290,24 @@ public class MainActivity extends Activity {
         WriteModeOn();
     }
 
+    private void showAlert(final String message, final String title) {
+        context.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                new AlertDialog.Builder(context)
+                        .setMessage(message)
+                        .setTitle(title)
+                        .setPositiveButton("OK",
+                                new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog,
+                                                        int which) {
+
+                                    }
+                                }).show();
+            }
+        });
+    }
 
 
     /******************************************************************************
