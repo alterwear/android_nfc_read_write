@@ -4,6 +4,7 @@ http://www.codexpedia.com/android/android-nfc-read-and-write-example/
 
 ## 2019-2-27 Notes
 - Android reference links [MifareUltralight](https://developer.android.com/reference/android/nfc/tech/MifareUltralight) [TagTechnology](https://developer.android.com/reference/android/nfc/tech/TagTechnology.html) 
+- [Helpful NFC/Android tutorial](https://code.tutsplus.com/tutorials/reading-nfc-tags-with-android--mobile-17278)
 
 ## 2019-01-09 Notes
 - Unable to read from the two formatable NFC tags.
