@@ -9,6 +9,10 @@ http://www.codexpedia.com/android/android-nfc-read-and-write-example/
   - [nfc.today: all about nfc tags](https://nfc.today/advice/nfc-tags)
   - NDEF (NFC data exchange format) encoding. This universal way of storing NFC information means that almost any NFC enabled device will be able to read and understand the data and what type of data it is.
   - [nfc.today article: how to encode nfc tags](https://nfc.today/learn/how-to-encode-nfc-tags)
+  - [adafruit's basic overview of MIFARE](https://learn.adafruit.com/adafruit-pn532-rfid-nfc/mifare)
+  - [adafruit's basic overview of NDEF](https://learn.adafruit.com/adafruit-pn532-rfid-nfc/ndef)
+  - "NFC tags... can be configured as NDEF tags, and data written to them by one NFC device (NDEF Records) can be understood and accessed by any other NDEF compatible device."
+    - idk why it's necessary to add a case to catch the tags as MiFareUltraLight tags made things work, if all things follow the universal NDEF format already? 
 
 ## 2019-01-09 Notes
 - Unable to read from the two formatable NFC tags.
