@@ -126,7 +126,9 @@ public class MainActivity extends Activity {
                 || NfcAdapter.ACTION_NDEF_DISCOVERED.equals(action)) {
             if (message.getText().toString().equals("")) {
                 // no message to write, so read only
+                Log.d(TAG, "trying to read since message is empty");
                 readFromIntent(intent);
+                return;
             }
 
             if (intent == null) return;
@@ -192,7 +194,7 @@ public class MainActivity extends Activity {
                 buildTagViews(msgs, "Just read NFC Content: ", justRead);
                 //Log.d(TAG, "reading cached msg from ndef tag: " + readMessage.getByteArrayLength());
                 // Write the message
-                Log.d(TAG, "writing message..." + message.toString());
+                Log.d(TAG, "writing message..." + message.getText().toString());
 
                 // Time statistics to return
                 timeNdefWrite = 0;
