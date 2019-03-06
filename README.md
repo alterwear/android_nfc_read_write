@@ -3,8 +3,12 @@
 http://www.codexpedia.com/android/android-nfc-read-and-write-example/
 
 ## 2019-2-27 Notes
-- Android reference links [MifareUltralight](https://developer.android.com/reference/android/nfc/tech/MifareUltralight) [TagTechnology](https://developer.android.com/reference/android/nfc/tech/TagTechnology.html) 
+- Android reference links [MifareUltralight](https://developer.android.com/reference/android/nfc/tech/MifareUltralight)  [TagTechnology](https://developer.android.com/reference/android/nfc/tech/TagTechnology.html) 
 - [Helpful NFC/Android tutorial](https://code.tutsplus.com/tutorials/reading-nfc-tags-with-android--mobile-17278)
+- Links for learning a lil more about NFC tags
+  - [nfc.today: all about nfc tags](https://nfc.today/advice/nfc-tags)
+  - NDEF (NFC data exchange format) encoding. This universal way of storing NFC information means that almost any NFC enabled device will be able to read and understand the data and what type of data it is.
+  - [nfc.today article: how to encode nfc tags](https://nfc.today/learn/how-to-encode-nfc-tags)
 
 ## 2019-01-09 Notes
 - Unable to read from the two formatable NFC tags.
