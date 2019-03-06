@@ -2,19 +2,17 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="vertical" >
+    android:orientation="vertical">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Write a message: ">
-    </TextView>
+        android:text="Write a message: "></TextView>
 
-    <LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20sp" >
+        android:layout_marginTop="20sp">
 
         <EditText
             android:id="@+id/edit_message"
@@ -22,33 +20,43 @@
             android:layout_height="wrap_content"
             android:layout_weight="2"
             android:hint="message" />
+
         <Button
             android:id="@+id/btn-wait-to-write"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Write"/>
+            android:text="Write" />
 
     </LinearLayout>
+
     <TextView
-        android:id="@+id/nfc_contents"
+        android:id="@+id/just_read"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        />
+        android:hint="just_read" />
+
+    <TextView
+        android:id="@+id/previous_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="previous content" />
 
     <TextView
         android:id="@+id/just_written"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        />
+        android:hint="just written" />
+
     <Button
         android:id="@+id/btn-write-800"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Write 800"/>
+        android:text="Write 800" />
+
     <TextView
         android:id="@+id/time-to-write"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:hint="time to write"/>
+        android:hint="time to write" />
 </LinearLayout>
