@@ -2,6 +2,19 @@
 
 http://www.codexpedia.com/android/android-nfc-read-and-write-example/
 
+## 2019-3-06 Notes
+- Questions we have: 
+  1. What does formatable mean vs editable? 
+  2. ~~Reading several times in a row eventually returns blank~~ We were writing an empty message after reading. No longer doing that. 
+- Reading works (at least for the soldered tag)
+  1. round tag is: TAG: Tech [android.nfc.tech.NfcA, android.nfc.tech.MifareUltralight, android.nfc.tech.NdefFormatable]
+    - uses Mifare code, and doesn't actually write. Doesn't crash though. 
+  2. Resined tag is: TAG: Tech [android.nfc.tech.NfcA, android.nfc.tech.MifareUltralight, android.nfc.tech.NdefFormatable]
+    - uses Mifare code, and doesn't actually write. Doesn't crash though. 
+  3. Soldered tag is: TAG: Tech [android.nfc.tech.NfcA, android.nfc.tech.MifareUltralight, android.nfc.tech.Ndef]
+    - uses NDEF code, and definitely reads and writes. 
+  
+
 ## 2019-2-27 Notes
 - Android reference links [MifareUltralight](https://developer.android.com/reference/android/nfc/tech/MifareUltralight)  [TagTechnology](https://developer.android.com/reference/android/nfc/tech/TagTechnology.html) 
 - [Helpful NFC/Android tutorial](https://code.tutsplus.com/tutorials/reading-nfc-tags-with-android--mobile-17278)
